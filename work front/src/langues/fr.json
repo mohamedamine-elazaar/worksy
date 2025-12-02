@@ -1,0 +1,194 @@
+{
+  "welcome": "Bienvenue sur Worksy",
+  "login": "Se connecter",
+  "register": "Créer un compte",
+  "navbar": {
+    "home": "Accueil",
+    "profile": "Profil",
+    "dashboard": "Tableau de bord",
+    "offers": "Offres",
+    "login": "Connexion"
+  },
+  "footer": {
+    "rights": "© Worksy 2025 — Tous droits réservés",
+    "terms": "CGU",
+    "privacy": "Confidentialité",
+    "contact": "Contact"
+  },
+  "admin": {
+    "title": "Tableau de bord Admin",
+    "stats": {
+      "users": "Utilisateurs totaux",
+      "offers": "Offres actives",
+      "reviews": "Avis en attente"
+    },
+    "recentUsers": "Utilisateurs récents",
+    "view": "Voir"
+  },
+  "user": {
+    "title": "Tableau de bord Utilisateur",
+    "stats": {
+      "saved": "Offres sauvegardées",
+      "applications": "Candidatures envoyées",
+      "messages": "Messages"
+    },
+    "recentApplications": "Candidatures récentes",
+    "status": "Statut",
+    "view": "Voir"
+  },
+  "entreprise": {
+    "dashboard": "Tableau de bord",
+    "stats": {
+      "posted": "Offres publiées",
+      "applicants": "Candidats"
+    },
+    "jobs": "Offres",
+    "manage": "Gérer"
+  },
+  "home": {
+    "hero": {
+      "title": "Worksy — Connectez les Talents aux Opportunités",
+      "subtitle": "Worksy facilite la rencontre entre freelances, stagiaires et entreprises au Maroc. Découvrez des missions, postulez facilement et collaborez en toute confiance.",
+      "searchJob": "Je cherche un job",
+      "searchTalent": "Je cherche un talent",
+      "localPlatform": "Plateforme locale pensée pour le marché marocain — rapide, simple et sécurisée.",
+      "joinCommunity": "Rejoignez une communauté grandissante de talents et employeurs."
+    },
+    "problem": {
+      "title": "Le défi pour la jeunesse marocaine",
+      "subtitle": "Beaucoup de jeunes qualifiés peinent à trouver des opportunités adaptées — manque de réseau, expérience limitée et accès restreint aux entreprises.",
+      "stats": {
+        "unemployment": {
+          "title": "Chômage élevé",
+          "desc": "Le taux de chômage touche particulièrement les jeunes diplômés dans beaucoup de régions."
+        },
+        "experience": {
+          "title": "Manque d’expérience",
+          "desc": "Les entreprises demandent souvent de l’expérience que les candidats n’ont pas eu l’occasion d’acquérir."
+        },
+        "access": {
+          "title": "Accès limité",
+          "desc": "Accès limité aux recruteurs et aux missions — Worksy facilite la mise en relation directe."
+        }
+      }
+    },
+    "solution": {
+      "title": "Solution Worksy",
+      "subtitle": "Worksy connecte talents et entreprises via des outils simples : matching intelligent, profils vérifiés et processus de candidature clair.",
+      "features": {
+        "matching": {
+          "title": "Matching intelligent",
+          "desc": "Algorithme simple mais efficace pour rapprocher les compétences et les missions adaptées."
+        },
+        "verified": {
+          "title": "Profils vérifiés",
+          "desc": "Vérification des comptes et profils pour renforcer la confiance entre candidats et entreprises."
+        },
+        "booking": {
+          "title": "Réservations & candidatures",
+          "desc": "Postulez, réservez des entretiens et suivez vos candidatures depuis votre tableau de bord."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "Comment ça marche",
+      "subtitle": "Trois étapes simples pour commencer avec Worksy",
+      "steps": {
+        "create": {
+          "title": "Créez votre compte",
+          "desc": "Inscrivez-vous en quelques clics, complétez votre profil et indiquez vos compétences."
+        },
+        "find": {
+          "title": "Trouvez une opportunité ou un talent",
+          "desc": "Recherchez par catégorie, filtrez par localisation et compétences."
+        },
+        "collaborate": {
+          "title": "Commencez à collaborer",
+          "desc": "Échangez, planifiez et démarrez la mission — tout est centralisé sur Worksy."
+        }
+      }
+    },
+    "categories": {
+      "title": "Catégories populaires",
+      "subtitle": "Trouvez des talents ou des missions par spécialité",
+      "items": {
+        "web": "Développement web",
+        "design": "Design",
+        "marketing": "Marketing",
+        "virtual": "Assistance virtuelle",
+        "video": "Montage vidéo",
+        "data": "Data / IA"
+      }
+    },
+    "testimonials": {
+      "title": "Pourquoi Worksy ?",
+      "subtitle": "Témoignages d'utilisateurs et entreprises qui ont adopté Worksy",
+      "items": {
+        "sara": {
+          "role": "Freelance UI/UX",
+          "quote": "Grâce à Worksy j'ai trouvé ma première mission en deux semaines — l'approche locale fait la différence."
+        },
+        "youssef": {
+          "role": "Responsable RH",
+          "quote": "Worksy nous a permis de trouver rapidement des candidats qualifiés sans perdre de temps."
+        },
+        "amina": {
+          "role": "Stagiaire",
+          "quote": "Plateforme simple et rassurante — profils vérifiés et bons échanges."
+        }
+      }
+    }
+  },
+  "login": {
+    "title": "Connexion",
+    "emailPlaceholder": "email",
+    "passwordPlaceholder": "mot de passe",
+    "error": {
+      "missingFields": "Veuillez entrer l'email et le mot de passe"
+    },
+    "submit": "Entrer"
+  },
+  "register": {
+    "title": "Créer un compte",
+    "error": {
+      "missingFields": "Veuillez remplir tous les champs obligatoires",
+      "passwordLength": "Le mot de passe doit contenir au moins 6 caractères",
+      "passwordMismatch": "Les mots de passe ne correspondent pas"
+    },
+    "accountType": "Type de compte",
+    "role": {
+      "freelancer": "Freelancer",
+      "intern": "Stagiaire",
+      "company": "Entreprise"
+    },
+    "companyName": "Nom de l'entreprise",
+    "fullName": "Nom complet",
+    "email": "Email",
+    "password": "Mot de passe",
+    "passwordHint": "6+ caractères",
+    "confirmPassword": "Confirmer le mot de passe",
+    "submit": "Créer mon compte"
+  },
+  "offers": {
+    "searchPlaceholder": "Rechercher une offre ou une entreprise",
+    "allCategories": "Toutes catégories",
+    "type": "Type",
+    "types": {
+      "freelance": "Freelance",
+      "internship": "Stage"
+    },
+    "viewOffer": "Voir l'offre",
+    "noOffers": "Aucune offre trouvée."
+  },
+  "profile": {
+    "verified": "Profil vérifié",
+    "edit": "Editer",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "about": "À propos",
+    "name": "Nom",
+    "email": "Email",
+    "location": "Localisation",
+    "role": "Rôle"
+  }
+}

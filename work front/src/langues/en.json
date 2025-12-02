@@ -1,0 +1,194 @@
+{
+  "welcome": "Welcome to Worksy",
+  "login": "Login",
+  "register": "Create an account",
+  "navbar": {
+    "home": "Home",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "offers": "Offers",
+    "login": "Login"
+  },
+  "footer": {
+    "rights": "© Worksy 2025 — All rights reserved",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "contact": "Contact"
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "stats": {
+      "users": "Total Users",
+      "offers": "Active Offers",
+      "reviews": "Pending Reviews"
+    },
+    "recentUsers": "Recent Users",
+    "view": "View"
+  },
+  "user": {
+    "title": "User Dashboard",
+    "stats": {
+      "saved": "Saved Jobs",
+      "applications": "Applications Sent",
+      "messages": "Messages"
+    },
+    "recentApplications": "Recent Applications",
+    "status": "Status",
+    "view": "View"
+  },
+  "entreprise": {
+    "dashboard": "Dashboard",
+    "stats": {
+      "posted": "Posted Jobs",
+      "applicants": "Applicants"
+    },
+    "jobs": "Jobs",
+    "manage": "Manage"
+  },
+  "home": {
+    "hero": {
+      "title": "Worksy — Connect Talents to Opportunities",
+      "subtitle": "Worksy facilitates the meeting between freelancers, interns, and companies in Morocco. Discover missions, apply easily, and collaborate with confidence.",
+      "searchJob": "I'm looking for a job",
+      "searchTalent": "I'm looking for talent",
+      "localPlatform": "Local platform designed for the Moroccan market — fast, simple, and secure.",
+      "joinCommunity": "Join a growing community of talents and employers."
+    },
+    "problem": {
+      "title": "The Challenge for Moroccan Youth",
+      "subtitle": "Many qualified young people struggle to find suitable opportunities — lack of network, limited experience, and restricted access to companies.",
+      "stats": {
+        "unemployment": {
+          "title": "High Unemployment",
+          "desc": "The unemployment rate particularly affects young graduates in many regions."
+        },
+        "experience": {
+          "title": "Lack of Experience",
+          "desc": "Companies often require experience that candidates haven't had the chance to acquire."
+        },
+        "access": {
+          "title": "Limited Access",
+          "desc": "Limited access to recruiters and missions — Worksy facilitates direct connection."
+        }
+      }
+    },
+    "solution": {
+      "title": "Worksy Solution",
+      "subtitle": "Worksy connects talents and companies via simple tools: smart matching, verified profiles, and clear application process.",
+      "features": {
+        "matching": {
+          "title": "Smart Matching",
+          "desc": "Simple but effective algorithm to match skills with suitable missions."
+        },
+        "verified": {
+          "title": "Verified Profiles",
+          "desc": "Account and profile verification to strengthen trust between candidates and companies."
+        },
+        "booking": {
+          "title": "Bookings & Applications",
+          "desc": "Apply, book interviews, and track your applications from your dashboard."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Three simple steps to start with Worksy",
+      "steps": {
+        "create": {
+          "title": "Create your account",
+          "desc": "Sign up in a few clicks, complete your profile, and indicate your skills."
+        },
+        "find": {
+          "title": "Find an opportunity or talent",
+          "desc": "Search by category, filter by location and skills."
+        },
+        "collaborate": {
+          "title": "Start collaborating",
+          "desc": "Exchange, plan, and start the mission — everything is centralized on Worksy."
+        }
+      }
+    },
+    "categories": {
+      "title": "Popular Categories",
+      "subtitle": "Find talents or missions by specialty",
+      "items": {
+        "web": "Web Development",
+        "design": "Design",
+        "marketing": "Marketing",
+        "virtual": "Virtual Assistance",
+        "video": "Video Editing",
+        "data": "Data / AI"
+      }
+    },
+    "testimonials": {
+      "title": "Why Worksy?",
+      "subtitle": "Testimonials from users and companies who have adopted Worksy",
+      "items": {
+        "sara": {
+          "role": "Freelance UI/UX",
+          "quote": "Thanks to Worksy I found my first mission in two weeks — the local approach makes the difference."
+        },
+        "youssef": {
+          "role": "HR Manager",
+          "quote": "Worksy allowed us to quickly find qualified candidates without wasting time."
+        },
+        "amina": {
+          "role": "Intern",
+          "quote": "Simple and reassuring platform — verified profiles and good exchanges."
+        }
+      }
+    }
+  },
+  "login": {
+    "title": "Login",
+    "emailPlaceholder": "email",
+    "passwordPlaceholder": "password",
+    "error": {
+      "missingFields": "Please enter both email and password"
+    },
+    "submit": "Enter"
+  },
+  "register": {
+    "title": "Create an account",
+    "error": {
+      "missingFields": "Please fill in all required fields",
+      "passwordLength": "Password must be at least 6 characters",
+      "passwordMismatch": "Passwords do not match"
+    },
+    "accountType": "Account Type",
+    "role": {
+      "freelancer": "Freelancer",
+      "intern": "Intern",
+      "company": "Company"
+    },
+    "companyName": "Company Name",
+    "fullName": "Full Name",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "6+ characters",
+    "confirmPassword": "Confirm Password",
+    "submit": "Create my account"
+  },
+  "offers": {
+    "searchPlaceholder": "Search for an offer or company",
+    "allCategories": "All Categories",
+    "type": "Type",
+    "types": {
+      "freelance": "Freelance",
+      "internship": "Internship"
+    },
+    "viewOffer": "View Offer",
+    "noOffers": "No offers found."
+  },
+  "profile": {
+    "verified": "Verified Profile",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "about": "About",
+    "name": "Name",
+    "email": "Email",
+    "location": "Location",
+    "role": "Role"
+  }
+}
