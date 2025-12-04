@@ -41,3 +41,20 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
+
+// Request password reset: checks if user exists and returns status
+export const requestPasswordReset = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ msg: "Email required" });
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ msg: "Account not found" });
+
+    // In a real app, generate a token, store it, and email the link
+    // For now, just acknowledge
+    return res.json({ msg: "Reset link sent" });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};

@@ -1,14 +1,42 @@
-import { useMemo, useState } from "react"
+import { useMemo, useEffect, useState } from "react"
 import { Search, Filter, Briefcase, MapPin, Clock, ArrowRight } from "lucide-react"
 import { useTranslation } from "react-i18next"
+import { apiRequest } from "../context/utils/api"
 
-const seedOffers = [
-  { id: 1, title: "Frontend React Developer", company: "ACME", location: "Casablanca", type: "Freelance", category: "web", posted: "Il y a 2j" },
-  { id: 2, title: "UI/UX Designer", company: "Studio Beta", location: "Rabat", type: "Stage", category: "design", posted: "Il y a 1j" },
-  { id: 3, title: "Assistant virtuel FR/AR", company: "StartUp X", location: "Remote", type: "Freelance", category: "virtual", posted: "Aujourd'hui" },
-  { id: 4, title: "Video Editor", company: "MediaPro", location: "Marrakech", type: "Freelance", category: "video", posted: "Il y a 5j" },
-  { id: 5, title: "Data Analyst Jr.", company: "Insight", location: "Casablanca", type: "Stage", category: "data", posted: "Il y a 3j" },
-]
+// Fetch offers from backend
+function useOffers() {
+  const [offers, setOffers] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    let mounted = true
+    setLoading(true)
+    setError("")
+    apiRequest("/offers")
+      .then((data) => {
+        if (!mounted) return
+        // Normalize backend fields to UI expectations
+        const normalized = (Array.isArray(data) ? data : []).map((o) => ({
+          id: o._id,
+          title: o.title,
+          company: o.entrepriseId?.fullName || "",
+          location: o.location || "",
+          // Map backend type to display label
+          type: o.type === "stage" ? "Stage" : o.type === "freelance" ? "Freelance" : o.type === "emploi" ? "Emploi" : "",
+          // No category in backend; derive a simple category by title keywords
+          category: /design/i.test(o.title) ? "design" : /data/i.test(o.title) ? "data" : /video/i.test(o.title) ? "video" : /marketing/i.test(o.title) ? "marketing" : /assistant|virtual/i.test(o.title) ? "virtual" : "web",
+          posted: o.createdAt ? new Intl.RelativeTimeFormat('fr', { numeric: 'auto' }).format(Math.round((Date.now() - new Date(o.createdAt).getTime()) / (1000*60*60*24)) * -1, 'day') : "",
+        }))
+        setOffers(normalized)
+      })
+      .catch((err) => setError(err.message || "Failed to load offers"))
+      .finally(() => setLoading(false))
+    return () => { mounted = false }
+  }, [])
+
+  return { offers, loading, error }
+}
 
 function OfferCard({ offer }) {
   const { t } = useTranslation();
@@ -36,6 +64,7 @@ function OfferCard({ offer }) {
 
 export default function Offers() {
   const { t } = useTranslation();
+  const { offers, loading, error } = useOffers()
   const [q, setQ] = useState("")
   const [cat, setCat] = useState("")
   const [type, setType] = useState("")
@@ -50,13 +79,13 @@ export default function Offers() {
   ]
 
   const filtered = useMemo(() => {
-    return seedOffers.filter((o) => {
+    return offers.filter((o) => {
       const matchQ = q ? (o.title + " " + o.company).toLowerCase().includes(q.toLowerCase()) : true
       const matchCat = cat ? o.category === cat : true
       const matchType = type ? o.type === type : true
       return matchQ && matchCat && matchType
     })
-  }, [q, cat, type])
+  }, [q, cat, type, offers])
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -94,6 +123,12 @@ export default function Offers() {
 
       <section className="max-w-6xl mx-auto px-6 sm:px-8 py-8">
         <div className="grid grid-cols-1 gap-4">
+          {loading && (
+            <div className="text-center text-gray-500 bg-white border rounded-lg p-8">{t('offers.loading')}</div>
+          )}
+          {error && (
+            <div className="text-center text-red-600 bg-white border rounded-lg p-8">{error}</div>
+          )}
           {filtered.map((o) => (
             <OfferCard key={o.id} offer={o} />
           ))}

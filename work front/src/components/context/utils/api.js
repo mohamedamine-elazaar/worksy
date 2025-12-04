@@ -22,4 +22,5 @@ export const authApi = {
   login: (email, password) => apiRequest("/auth/login", { method: "POST", body: { email, password } }),
   register: (payload) => apiRequest("/auth/register", { method: "POST", body: payload }),
   me: (token) => apiRequest("/auth/me", { token }), // optional if backend provides it
+  requestPasswordReset: (email) => apiRequest("/auth/forgot", { method: "POST", body: { email } }),
 };

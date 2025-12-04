@@ -67,6 +67,12 @@ function Navbar() {
             >
               {t('navbar.offers')}
             </Link>
+            <Link 
+              to="/signup" 
+              className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+            >
+              {t('register.title')}
+            </Link>
             {role || (typeof localStorage !== 'undefined' && localStorage.getItem('role')) ? (
               <button
                 onClick={handleLogout}
@@ -151,6 +157,13 @@ function Navbar() {
                 onClick={() => setIsOpen(false)}
               >
                 {t('navbar.offers')}
+              </Link>
+              <Link 
+                to="/signup" 
+                className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-300"
+                onClick={() => setIsOpen(false)}
+              >
+                {t('register.title')}
               </Link>
               {role || (typeof localStorage !== 'undefined' && localStorage.getItem('role')) ? (
                 <button 

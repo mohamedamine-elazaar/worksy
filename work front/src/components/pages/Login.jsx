@@ -8,7 +8,7 @@ export default function Login() {
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [accountType, setAccountType] = useState(""); // "stagiaire" | "self_employed"
+  const [accountType, setAccountType] = useState(""); // "stagiaire" | "self_employed" | "freelancer" | "company"
   const [nationalId, setNationalId] = useState("");
   const [contractorCard, setContractorCard] = useState("");
   const [error, setError] = useState("");
@@ -22,6 +22,11 @@ export default function Login() {
     setError("");
     if (!email || !password) {
       setError(t('login.error.missingFields'));
+      return;
+    }
+    // Validation consistent with signup: require account type selection
+    if (!accountType) {
+      setError(t('register.error.missingFields'));
       return;
     }
     // Basic client-side validation for additional fields
@@ -63,15 +68,18 @@ export default function Login() {
       <h2 className="text-2xl font-bold mb-4">{t('login.title')}</h2>
 
       <form onSubmit={handleLogin} className="flex flex-col gap-3 w-64">
-        {/* Optional role hint to collect required IDs */}
+        {/* Account type (required to align with signup) */}
         <select
           value={accountType}
           onChange={(e) => setAccountType(e.target.value)}
           className="border p-2 rounded"
+          required
         >
-          <option value="">Select account type (optional)</option>
+          <option value="">Select account type</option>
           <option value="stagiaire">Stagiaire / Intern</option>
           <option value="self_employed">Self-employed contractor</option>
+          <option value="freelancer">Freelancer</option>
+          <option value="company">Company</option>
         </select>
 
         <input
@@ -128,6 +136,13 @@ export default function Login() {
           className="text-blue-600 hover:text-blue-700 text-sm underline mt-1 text-left"
         >
           Forgot password?
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate('/signup')}
+          className="text-gray-600 hover:text-gray-800 text-sm underline mt-1 text-left"
+        >
+          Create an account
         </button>
       </form>
     </div>
