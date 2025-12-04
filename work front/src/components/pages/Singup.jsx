@@ -17,12 +17,15 @@ export default function Singup() {
 	const [error, setError] = useState('')
 
 	const validate = () => {
-		if (!fullName || !email || !password || !confirmPassword || !accountType) {
-			return t('register.error.missingFields')
-		}
+		// All signup info is obligatory
+		if (!accountType) return t('register.error.missingFields')
+		if (accountType === 'company' && !companyName.trim()) return t('register.error.missingFields')
+		if (!fullName.trim()) return t('register.error.missingFields')
+		if (!email.trim()) return t('register.error.missingFields')
+		if (!password) return t('register.error.missingFields')
+		if (!confirmPassword) return t('register.error.missingFields')
 		if (password.length < 6) return t('register.error.passwordLength')
 		if (password !== confirmPassword) return t('register.error.passwordMismatch')
-		if (accountType === 'company' && !companyName.trim()) return t('register.error.missingFields')
 		return ''
 	}
 
@@ -60,7 +63,9 @@ export default function Singup() {
 						className="w-full border rounded-md px-3 py-2 bg-white"
 						value={accountType}
 						onChange={(e) => setAccountType(e.target.value)}
+						required
 					>
+						<option value="">--</option>
 						<option value="freelancer">{t('register.role.freelancer')}</option>
 						<option value="intern">{t('register.role.intern')}</option>
 						<option value="company">{t('register.role.company')}</option>
@@ -70,28 +75,28 @@ export default function Singup() {
 				{accountType === 'company' && (
 					<div>
 						<label className="block text-sm text-gray-700 mb-1">{t('register.companyName')}</label>
-						<input className="w-full border rounded-md px-3 py-2" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
+						<input className="w-full border rounded-md px-3 py-2" value={companyName} onChange={(e) => setCompanyName(e.target.value)} required />
 					</div>
 				)}
 
 				<div>
 					<label className="block text-sm text-gray-700 mb-1">{t('register.fullName')}</label>
-					<input className="w-full border rounded-md px-3 py-2" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+					<input className="w-full border rounded-md px-3 py-2" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
 				</div>
 
 				<div>
 					<label className="block text-sm text-gray-700 mb-1">{t('register.email')}</label>
-					<input type="email" className="w-full border rounded-md px-3 py-2" value={email} onChange={(e) => setEmail(e.target.value)} />
+					<input type="email" className="w-full border rounded-md px-3 py-2" value={email} onChange={(e) => setEmail(e.target.value)} required />
 				</div>
 
 				<div>
 					<label className="block text-sm text-gray-700 mb-1">{t('register.password')}</label>
-					<input type="password" className="w-full border rounded-md px-3 py-2" value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t('register.passwordHint')} />
+					<input type="password" className="w-full border rounded-md px-3 py-2" value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t('register.passwordHint')} required />
 				</div>
 
 				<div>
 					<label className="block text-sm text-gray-700 mb-1">{t('register.confirmPassword')}</label>
-					<input type="password" className="w-full border rounded-md px-3 py-2" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+					<input type="password" className="w-full border rounded-md px-3 py-2" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
 				</div>
 
 				{error ? <div className="text-red-600 text-sm">{error}</div> : null}

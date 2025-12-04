@@ -12,6 +12,7 @@ import Login from "./components/pages/Login.jsx"
 import AdminDashboard from "./components/pages/AdminDashboard.jsx"
 import EntrepriseDashboard from "./components/pages/EntrepriseDashboard.jsx"
 import Singup from "./components/pages/Singup.jsx"
+import ForgotPassWord from "./components/pages/ForgotPassWord.jsx"
 
 
 
@@ -34,6 +35,7 @@ function App() {
          <Route path="/Profile" element={<Profile />} /> 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Singup />} />
+        <Route path="/forgot-password" element={<ForgotPassWord />} />
       </Routes>
 
       <Footer />

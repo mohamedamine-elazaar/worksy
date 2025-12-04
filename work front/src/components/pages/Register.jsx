@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserPlus, Mail, Lock, Briefcase } from "lucide-react"
 import { useTranslation } from "react-i18next"
+import { authApi } from "../context/utils/api"
 
 export default function Register() {
   const { t } = useTranslation()
@@ -12,7 +13,7 @@ export default function Register() {
 
   const onChange = (e) => setValues({ ...values, [e.target.name]: e.target.value })
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     setError("")
     if (!values.name || !values.email || !values.password || !values.confirm) {
@@ -27,9 +28,23 @@ export default function Register() {
       setError(t('register.error.passwordMismatch'))
       return
     }
-    // No backend yet: pretend registration succeeded, set a role for demo
-    try { localStorage.setItem('role', role === 'entreprise' ? 'entreprise' : role === 'stagiaire' ? 'user' : 'user') } catch { /* ignore */ }
-    navigate('/dashboard')
+
+    const mappedRole = role === 'entreprise' ? 'entreprise' : 'user'
+    const payload = {
+      fullName: values.name,
+      email: values.email,
+      password: values.password,
+      role: mappedRole,
+      company: role === 'entreprise' ? values.company : undefined,
+    }
+    try {
+      await authApi.register(payload)
+      // After successful registration, go to login
+      navigate('/login')
+    } catch (err) {
+      // Show backend message like "Email already exists" or generic error
+      setError(err.message || t('register.error.generic'))
+    }
   }
 
   return (

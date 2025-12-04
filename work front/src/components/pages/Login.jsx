@@ -121,6 +121,14 @@ export default function Login() {
         {error && <div className="text-red-500 text-sm">{error}</div>}
 
         <button type="submit" className="bg-blue-500 text-white py-2 rounded">{t('login.submit')}</button>
+
+        <button
+          type="button"
+          onClick={() => navigate('/forgot-password')}
+          className="text-blue-600 hover:text-blue-700 text-sm underline mt-1 text-left"
+        >
+          Forgot password?
+        </button>
       </form>
     </div>
   );
