@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Globe } from "lucide-react";
+import { Globe, Settings, User as UserIcon } from "lucide-react";
 import { useAuth } from "./context/useAuth";
 
 function Navbar() {
@@ -9,6 +9,35 @@ function Navbar() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { role, setRole, token, user, setToken, setUser } = useAuth();
+  const [sectionsOpen, setSectionsOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
+  const [prefs, setPrefs] = useState({ showProfile: true, showDashboard: true, showOffers: true });
+  const [userDraft, setUserDraft] = useState({ fullName: "", email: "" });
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('ui_prefs');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        setPrefs((p) => ({ ...p, ...parsed?.nav }));
+      }
+    } catch { /* ignore */ }
+  }, []);
+
+  useEffect(() => {
+    setUserDraft({ fullName: user?.fullName || "", email: user?.email || "" });
+  }, [user]);
+
+  const savePrefs = (next) => {
+    const merged = { ...prefs, ...next };
+    setPrefs(merged);
+    try {
+      const raw = localStorage.getItem('ui_prefs');
+      const base = raw ? JSON.parse(raw) : {};
+      base.nav = merged;
+      localStorage.setItem('ui_prefs', JSON.stringify(base));
+    } catch { /* ignore */ }
+  };
 
   const changeLanguage = (e) => {
     i18n.changeLanguage(e.target.value);
@@ -26,6 +55,10 @@ function Navbar() {
 
   const isAuthed = !!(token || role || (typeof localStorage !== 'undefined' && (localStorage.getItem('token') || localStorage.getItem('role'))));
   const hasProfile = !!(user?.profile || (typeof localStorage !== 'undefined' && localStorage.getItem('profile')));
+
+  const showProfileLink = prefs.showProfile !== false;
+  const showDashboardLink = prefs.showDashboard !== false;
+  const showOffersLink = prefs.showOffers !== false;
 
   return (
     <nav className="bg-white shadow-lg">
@@ -54,24 +87,30 @@ function Navbar() {
             >
               {t('navbar.home')}
             </Link>
-            <Link 
-              to="/profile" 
-              className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
-            >
-              {t('navbar.profile')}
-            </Link>
-            <Link 
-              to="/dashboard" 
-              className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
-            >
-              {t('navbar.dashboard')}
-            </Link>
-            <Link 
-              to="/offers" 
-              className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
-            >
-              {t('navbar.offers')}
-            </Link>
+            {showProfileLink && (
+              <Link 
+                to="/profile" 
+                className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+              >
+                {t('navbar.profile')}
+              </Link>
+            )}
+            {showDashboardLink && (
+              <Link 
+                to="/dashboard" 
+                className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+              >
+                {t('navbar.dashboard')}
+              </Link>
+            )}
+            {showOffersLink && (
+              <Link 
+                to="/offers" 
+                className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+              >
+                {t('navbar.offers')}
+              </Link>
+            )}
             {(!isAuthed && !hasProfile) && (
               <Link 
                 to="/signup" 
@@ -95,6 +134,79 @@ function Navbar() {
                 {t('navbar.login')}
               </Link>
             )}
+
+            {/* Sections Config Toggle */}
+            <div className="relative">
+              <button
+                onClick={() => { setSectionsOpen((v) => !v); setUserOpen(false); }}
+                className="flex items-center gap-2 border rounded-md px-3 py-2 text-sm hover:bg-gray-50"
+                title="Configure sections"
+              >
+                <Settings className="w-4 h-4 text-gray-600" /> Sections
+              </button>
+              {sectionsOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white border rounded-md shadow p-3 z-50">
+                  <label className="flex items-center gap-2 text-sm py-1">
+                    <input type="checkbox" checked={showProfileLink} onChange={(e) => savePrefs({ showProfile: e.target.checked })} />
+                    <span>Profile link</span>
+                  </label>
+                  <label className="flex items-center gap-2 text-sm py-1">
+                    <input type="checkbox" checked={showDashboardLink} onChange={(e) => savePrefs({ showDashboard: e.target.checked })} />
+                    <span>Dashboard link</span>
+                  </label>
+                  <label className="flex items-center gap-2 text-sm py-1">
+                    <input type="checkbox" checked={showOffersLink} onChange={(e) => savePrefs({ showOffers: e.target.checked })} />
+                    <span>Offers link</span>
+                  </label>
+                </div>
+              )}
+            </div>
+
+            {/* User Info Config Toggle */}
+            <div className="relative">
+              <button
+                onClick={() => { setUserOpen((v) => !v); setSectionsOpen(false); }}
+                className="flex items-center gap-2 border rounded-md px-3 py-2 text-sm hover:bg-gray-50"
+                title="Configure user info"
+              >
+                <UserIcon className="w-4 h-4 text-gray-600" /> User Info
+              </button>
+              {userOpen && (
+                <div className="absolute right-0 mt-2 w-64 bg-white border rounded-md shadow p-3 z-50">
+                  <div className="text-xs text-gray-500 mb-2">Quick update (local)</div>
+                  <input
+                    className="w-full border rounded-md px-2 py-1 text-sm mb-2"
+                    placeholder="Full name"
+                    value={userDraft.fullName}
+                    onChange={(e) => setUserDraft((d) => ({ ...d, fullName: e.target.value }))}
+                  />
+                  <input
+                    type="email"
+                    className="w-full border rounded-md px-2 py-1 text-sm mb-2"
+                    placeholder="Email"
+                    value={userDraft.email}
+                    onChange={(e) => setUserDraft((d) => ({ ...d, email: e.target.value }))}
+                  />
+                  <div className="flex justify-end gap-2">
+                    <button
+                      className="px-3 py-1 text-sm rounded-md bg-gray-100"
+                      onClick={() => setUserOpen(false)}
+                      type="button"
+                    >Cancel</button>
+                    <button
+                      className="px-3 py-1 text-sm rounded-md bg-indigo-600 text-white"
+                      onClick={() => {
+                        const nextUser = { ...(user || {}), fullName: userDraft.fullName, email: userDraft.email };
+                        try { setUser(nextUser) } catch { /* ignore */ }
+                        try { localStorage.setItem('user', JSON.stringify(nextUser)) } catch { /* ignore */ }
+                        setUserOpen(false);
+                      }}
+                      type="button"
+                    >Save</button>
+                  </div>
+                </div>
+              )}
+            </div>
             
             {/* Language Switcher */}
             <div className="flex items-center gap-1 border rounded-md px-2 py-1">
@@ -151,20 +263,24 @@ function Navbar() {
               >
                 {t('navbar.profile')}
               </Link>
-              <Link 
-                to="/dashboard" 
-                className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-300"
-                onClick={() => setIsOpen(false)}
-              >
-                {t('navbar.dashboard')}
-              </Link>
-              <Link 
-                to="/offers" 
-                className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-300"
-                onClick={() => setIsOpen(false)}
-              >
-                {t('navbar.offers')}
-              </Link>
+              {showDashboardLink && (
+                <Link 
+                  to="/dashboard" 
+                  className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-300"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {t('navbar.dashboard')}
+                </Link>
+              )}
+              {showOffersLink && (
+                <Link 
+                  to="/offers" 
+                  className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-300"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {t('navbar.offers')}
+                </Link>
+              )}
               {(!isAuthed && !hasProfile) && (
                 <Link 
                   to="/signup" 
