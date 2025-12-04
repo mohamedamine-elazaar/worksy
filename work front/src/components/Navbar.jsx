@@ -8,7 +8,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { role, setRole } = useAuth();
+  const { role, setRole, token, user, setToken, setUser } = useAuth();
 
   const changeLanguage = (e) => {
     i18n.changeLanguage(e.target.value);
@@ -18,9 +18,14 @@ function Navbar() {
 
   const handleLogout = () => {
     try { setRole(null) } catch { /* ignore */ }
-    try { localStorage.removeItem('role') } catch { /* ignore */ }
+    try { setToken(null) } catch { /* ignore */ }
+    try { setUser(null) } catch { /* ignore */ }
+    try { localStorage.removeItem('role'); localStorage.removeItem('token'); localStorage.removeItem('user'); } catch { /* ignore */ }
     navigate('/login');
   };
+
+  const isAuthed = !!(token || role || (typeof localStorage !== 'undefined' && (localStorage.getItem('token') || localStorage.getItem('role'))));
+  const hasProfile = !!(user?.profile || (typeof localStorage !== 'undefined' && localStorage.getItem('profile')));
 
   return (
     <nav className="bg-white shadow-lg">
@@ -67,12 +72,14 @@ function Navbar() {
             >
               {t('navbar.offers')}
             </Link>
-            <Link 
-              to="/signup" 
-              className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
-            >
-              {t('register.title')}
-            </Link>
+            {(!isAuthed && !hasProfile) && (
+              <Link 
+                to="/signup" 
+                className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+              >
+                {t('register.title')}
+              </Link>
+            )}
             {role || (typeof localStorage !== 'undefined' && localStorage.getItem('role')) ? (
               <button
                 onClick={handleLogout}
@@ -158,13 +165,15 @@ function Navbar() {
               >
                 {t('navbar.offers')}
               </Link>
-              <Link 
-                to="/signup" 
-                className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-300"
-                onClick={() => setIsOpen(false)}
-              >
-                {t('register.title')}
-              </Link>
+              {(!isAuthed && !hasProfile) && (
+                <Link 
+                  to="/signup" 
+                  className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-300"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {t('register.title')}
+                </Link>
+              )}
               {role || (typeof localStorage !== 'undefined' && localStorage.getItem('role')) ? (
                 <button 
                   onClick={() => { setIsOpen(false); handleLogout(); }}
