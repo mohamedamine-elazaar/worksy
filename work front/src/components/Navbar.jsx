@@ -1,16 +1,25 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Globe } from "lucide-react";
+import { useAuth } from "./context/useAuth";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const { role, setRole } = useAuth();
 
   const changeLanguage = (e) => {
     i18n.changeLanguage(e.target.value);
     // Adjust direction for Arabic
     document.body.dir = e.target.value === 'ar' ? 'rtl' : 'ltr';
+  };
+
+  const handleLogout = () => {
+    try { setRole(null) } catch { /* ignore */ }
+    try { localStorage.removeItem('role') } catch { /* ignore */ }
+    navigate('/login');
   };
 
   return (
@@ -58,12 +67,21 @@ function Navbar() {
             >
               {t('navbar.offers')}
             </Link>
-            <Link 
-              to="/login" 
-              className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium transition duration-300"
-            >
-              {t('navbar.login')}
-            </Link>
+            {role || (typeof localStorage !== 'undefined' && localStorage.getItem('role')) ? (
+              <button
+                onClick={handleLogout}
+                className="bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-md text-sm font-medium transition duration-300"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link 
+                to="/login" 
+                className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium transition duration-300"
+              >
+                {t('navbar.login')}
+              </Link>
+            )}
             
             {/* Language Switcher */}
             <div className="flex items-center gap-1 border rounded-md px-2 py-1">
@@ -134,13 +152,22 @@ function Navbar() {
               >
                 {t('navbar.offers')}
               </Link>
-              <Link 
-                to="/login" 
-                className="bg-blue-600 text-white hover:bg-blue-700 block px-3 py-2 rounded-md text-base font-medium transition duration-300 text-center"
-                onClick={() => setIsOpen(false)}
-              >
-                {t('navbar.login')}
-              </Link>
+              {role || (typeof localStorage !== 'undefined' && localStorage.getItem('role')) ? (
+                <button 
+                  onClick={() => { setIsOpen(false); handleLogout(); }}
+                  className="bg-gray-200 text-gray-800 hover:bg-gray-300 block px-3 py-2 rounded-md text-base font-medium transition duration-300 text-center"
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link 
+                  to="/login" 
+                  className="bg-blue-600 text-white hover:bg-blue-700 block px-3 py-2 rounded-md text-base font-medium transition duration-300 text-center"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {t('navbar.login')}
+                </Link>
+              )}
               
               {/* Mobile Language Switcher */}
               <div className="mt-4 flex justify-center">
