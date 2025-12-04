@@ -2,10 +2,12 @@ import { useEffect, useMemo, useState } from "react"
 import { User, Mail, Briefcase, MapPin, ShieldCheck, Edit3, Save, X, Star } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { useLocation } from "react-router-dom"
+import { useAuth } from "../context/useAuth"
 
 export default function Profile() {
   const { t } = useTranslation()
   const location = useLocation()
+  const { user, setUser } = useAuth()
   const [editing, setEditing] = useState(false)
   const [loading, setLoading] = useState(true)
   const [form, setForm] = useState(null)
@@ -25,6 +27,16 @@ export default function Profile() {
       const raw = localStorage.getItem('profile')
       if (raw) {
         setForm(JSON.parse(raw))
+      } else if (user) {
+        const fromAuth = {
+          name: user.fullName || "",
+          email: user.email || "",
+          role: user.role || "freelancer",
+          location: "",
+          bio: "",
+          skills: [],
+        }
+        setForm(fromAuth)
       }
     } catch {/* ignore */}
     setLoading(false)
@@ -41,6 +53,12 @@ export default function Profile() {
     try {
       localStorage.setItem('profile', JSON.stringify(draft))
     } catch {/* ignore */}
+    // sync minimal fields back to auth user for Navbar toggle harmony
+    try {
+      const nextUser = { ...(user || {}), fullName: draft.name, email: draft.email }
+      setUser(nextUser)
+      localStorage.setItem('user', JSON.stringify(nextUser))
+    } catch { /* ignore */ }
     setEditing(false)
   }
 
