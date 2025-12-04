@@ -40,6 +40,19 @@ export default function Profile() {
           }
           setForm(fromAuth)
         } else {
+          const accRaw = localStorage.getItem('account')
+          if (accRaw) {
+            const acc = JSON.parse(accRaw)
+            const fromAcc = {
+              name: acc.fullName || "",
+              email: acc.email || "",
+              role: acc.role || "freelancer",
+              location: "",
+              bio: "",
+              skills: [],
+            }
+            setForm(fromAcc)
+          }
           // Try backend /auth/me if token exists
           const token = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null
           if (token) {

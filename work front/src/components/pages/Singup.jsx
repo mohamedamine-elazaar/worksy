@@ -47,7 +47,18 @@ export default function Singup() {
 		}
 
 		const account = { fullName, email, role, accountType, companyName: accountType === 'company' ? companyName : undefined }
-		try { localStorage.setItem('account', JSON.stringify(account)) } catch { /* ignore */ }
+		try {
+			localStorage.setItem('account', JSON.stringify(account))
+			const prefill = {
+				name: fullName,
+				email,
+				role,
+				location: "",
+				bio: "",
+				skills: [],
+			}
+			localStorage.setItem('profile', JSON.stringify(prefill))
+		} catch { /* ignore */ }
 
 		navigate('/Profile?create=1')
 	}

@@ -38,7 +38,19 @@ export default function Register() {
       company: role === 'entreprise' ? values.company : undefined,
     }
     try {
-      await authApi.register(payload)
+      const res = await authApi.register(payload)
+      // Prefill profile locally so Profile page has user info right after account creation
+      try {
+        const prefill = {
+          name: values.name,
+          email: values.email,
+          role: mappedRole,
+          location: "",
+          bio: "",
+          skills: [],
+        }
+        localStorage.setItem('profile', JSON.stringify(prefill))
+      } catch { /* ignore */ }
       // After successful registration, go to login
       navigate('/login')
     } catch (err) {
