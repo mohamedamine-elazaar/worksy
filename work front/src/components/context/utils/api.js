@@ -19,8 +19,8 @@ export async function apiRequest(path, { method = "GET", body, token } = {}) {
 }
 
 export const authApi = {
-  login: (email, password) => apiRequest("/auth/login", { method: "POST", body: { email, password } }),
+  login: (email, password, extra = {}) => apiRequest("/auth/login", { method: "POST", body: { email, password, ...extra } }),
   register: (payload) => apiRequest("/auth/register", { method: "POST", body: payload }),
-  me: (token) => apiRequest("/auth/me", { token }), // optional if backend provides it
+  me: (token) => apiRequest("/auth/me", { token }),
   requestPasswordReset: (email) => apiRequest("/auth/forgot", { method: "POST", body: { email } }),
 };

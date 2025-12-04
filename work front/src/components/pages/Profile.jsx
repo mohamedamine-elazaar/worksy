@@ -3,6 +3,7 @@ import { User, Mail, Briefcase, MapPin, ShieldCheck, Edit3, Save, X, Star } from
 import { useTranslation } from "react-i18next"
 import { useLocation } from "react-router-dom"
 import { useAuth } from "../context/useAuth"
+import { authApi } from "../context/utils/api"
 
 export default function Profile() {
   const { t } = useTranslation()
@@ -23,23 +24,44 @@ export default function Profile() {
   const [draft, setDraft] = useState(initialDraft)
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem('profile')
-      if (raw) {
-        setForm(JSON.parse(raw))
-      } else if (user) {
-        const fromAuth = {
-          name: user.fullName || "",
-          email: user.email || "",
-          role: user.role || "freelancer",
-          location: "",
-          bio: "",
-          skills: [],
+    async function init() {
+      try {
+        const raw = localStorage.getItem('profile')
+        if (raw) {
+          setForm(JSON.parse(raw))
+        } else if (user) {
+          const fromAuth = {
+            name: user.fullName || "",
+            email: user.email || "",
+            role: user.role || "freelancer",
+            location: "",
+            bio: "",
+            skills: [],
+          }
+          setForm(fromAuth)
+        } else {
+          // Try backend /auth/me if token exists
+          const token = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null
+          if (token) {
+            const data = await authApi.me(token)
+            const u = data?.user
+            if (u) {
+              const fromMe = {
+                name: u.fullName || "",
+                email: u.email || "",
+                role: u.role || "freelancer",
+                location: "",
+                bio: "",
+                skills: u.skills || [],
+              }
+              setForm(fromMe)
+            }
+          }
         }
-        setForm(fromAuth)
-      }
-    } catch {/* ignore */}
-    setLoading(false)
+      } catch { /* ignore */ }
+      setLoading(false)
+    }
+    init()
   }, [])
 
   const startEdit = () => {
@@ -123,20 +145,22 @@ export default function Profile() {
               <form onSubmit={saveEdit} className="mt-3 space-y-3">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs text-gray-500">{t('profile.name')}</label>
+                    <label className="text-xs text-gray-500">{t('profile.name')} *</label>
                     <input
                       className="w-full mt-1 border rounded-md px-3 py-2"
                       value={draft.name}
                       onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
+                      required
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-gray-500">{t('profile.email')}</label>
+                    <label className="text-xs text-gray-500">{t('profile.email')} *</label>
                     <input
                       type="email"
                       className="w-full mt-1 border rounded-md px-3 py-2"
                       value={draft.email}
                       onChange={(e) => setDraft((d) => ({ ...d, email: e.target.value }))}
+                      required
                     />
                   </div>
                   <div>

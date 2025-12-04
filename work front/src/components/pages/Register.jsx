@@ -78,17 +78,17 @@ export default function Register() {
             )}
           </div>
 
-          <label className="text-sm">{t('register.fullName')}
+          <label className="text-sm">{t('register.fullName')} *
             <div className="mt-1 flex items-center gap-2 border rounded-md px-3">
               <UserPlus className="w-4 h-4 text-gray-500" />
-              <input name="name" value={values.name} onChange={onChange} className="w-full py-2 outline-none" />
+              <input name="name" value={values.name} onChange={onChange} className="w-full py-2 outline-none" required />
             </div>
           </label>
 
-          <label className="text-sm">{t('register.email')}
+          <label className="text-sm">{t('register.email')} *
             <div className="mt-1 flex items-center gap-2 border rounded-md px-3">
               <Mail className="w-4 h-4 text-gray-500" />
-              <input type="email" name="email" value={values.email} onChange={onChange} className="w-full py-2 outline-none" />
+              <input type="email" name="email" value={values.email} onChange={onChange} className="w-full py-2 outline-none" required />
             </div>
           </label>
 
@@ -96,14 +96,14 @@ export default function Register() {
             <label className="text-sm">{t('register.password')}
               <div className="mt-1 flex items-center gap-2 border rounded-md px-3">
                 <Lock className="w-4 h-4 text-gray-500" />
-                <input type="password" name="password" value={values.password} onChange={onChange} className="w-full py-2 outline-none" />
+                <input type="password" name="password" value={values.password} onChange={onChange} className="w-full py-2 outline-none" required />
               </div>
               <div className="text-xs text-gray-500 mt-1">{t('register.passwordHint')}</div>
             </label>
             <label className="text-sm">{t('register.confirmPassword')}
               <div className="mt-1 flex items-center gap-2 border rounded-md px-3">
                 <Lock className="w-4 h-4 text-gray-500" />
-                <input type="password" name="confirm" value={values.confirm} onChange={onChange} className="w-full py-2 outline-none" />
+                <input type="password" name="confirm" value={values.confirm} onChange={onChange} className="w-full py-2 outline-none" required />
               </div>
             </label>
           </div>

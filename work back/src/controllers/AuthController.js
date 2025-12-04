@@ -58,3 +58,16 @@ export const requestPasswordReset = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
+
+// Get current user from token
+export const me = async (req, res) => {
+  try {
+    const id = req.user?.id;
+    if (!id) return res.status(401).json({ msg: 'Unauthorized' });
+    const user = await User.findById(id).select('-password');
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+    res.json({ user });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};

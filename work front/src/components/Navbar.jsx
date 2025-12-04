@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Globe, User as UserIcon } from "lucide-react";
+import { Globe } from "lucide-react";
 import { useAuth } from "./context/useAuth";
 
 function Navbar() {
@@ -9,12 +9,9 @@ function Navbar() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { role, setRole, token, user, setToken, setUser } = useAuth();
-  const [editOpen, setEditOpen] = useState(false);
-  const [userDraft, setUserDraft] = useState({ fullName: "", email: "" });
+  
 
-  useEffect(() => {
-    setUserDraft({ fullName: user?.fullName || "", email: user?.email || "" });
-  }, [user]);
+  
 
   const changeLanguage = (e) => {
     i18n.changeLanguage(e.target.value);
@@ -112,51 +109,7 @@ function Navbar() {
               </Link>
             )}
 
-            {/* Personal Info Edit Toggle */}
-            <div className="relative">
-              <button
-                onClick={() => setEditOpen((v) => !v)}
-                className="flex items-center gap-2 border rounded-md px-3 py-2 text-sm hover:bg-gray-50"
-                title="Edit personal info"
-              >
-                <UserIcon className="w-4 h-4 text-gray-600" /> {t('navbar.profile')}
-              </button>
-              {editOpen && (
-                <div className="absolute right-0 mt-2 w-64 bg-white border rounded-md shadow p-3 z-50">
-                  <div className="text-xs text-gray-500 mb-2">{t('profile.edit')}</div>
-                  <input
-                    className="w-full border rounded-md px-2 py-1 text-sm mb-2"
-                    placeholder="Full name"
-                    value={userDraft.fullName}
-                    onChange={(e) => setUserDraft((d) => ({ ...d, fullName: e.target.value }))}
-                  />
-                  <input
-                    type="email"
-                    className="w-full border rounded-md px-2 py-1 text-sm mb-2"
-                    placeholder="Email"
-                    value={userDraft.email}
-                    onChange={(e) => setUserDraft((d) => ({ ...d, email: e.target.value }))}
-                  />
-                  <div className="flex justify-end gap-2">
-                    <button
-                      className="px-3 py-1 text-sm rounded-md bg-gray-100"
-                      onClick={() => setEditOpen(false)}
-                      type="button"
-                    >Cancel</button>
-                    <button
-                      className="px-3 py-1 text-sm rounded-md bg-indigo-600 text-white"
-                      onClick={() => {
-                        const nextUser = { ...(user || {}), fullName: userDraft.fullName, email: userDraft.email };
-                        try { setUser(nextUser) } catch { /* ignore */ }
-                        try { localStorage.setItem('user', JSON.stringify(nextUser)) } catch { /* ignore */ }
-                        setEditOpen(false);
-                      }}
-                      type="button"
-                    >Save</button>
-                  </div>
-                </div>
-              )}
-            </div>
+            
             
             {/* Language Switcher */}
             <div className="flex items-center gap-1 border rounded-md px-2 py-1">

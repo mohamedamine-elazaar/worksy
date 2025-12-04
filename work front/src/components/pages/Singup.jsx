@@ -80,22 +80,22 @@ export default function Singup() {
 				)}
 
 				<div>
-					<label className="block text-sm text-gray-700 mb-1">{t('register.fullName')}</label>
+					<label className="block text-sm text-gray-700 mb-1">{t('register.fullName')} *</label>
 					<input className="w-full border rounded-md px-3 py-2" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
 				</div>
 
 				<div>
-					<label className="block text-sm text-gray-700 mb-1">{t('register.email')}</label>
+					<label className="block text-sm text-gray-700 mb-1">{t('register.email')} *</label>
 					<input type="email" className="w-full border rounded-md px-3 py-2" value={email} onChange={(e) => setEmail(e.target.value)} required />
 				</div>
 
 				<div>
-					<label className="block text-sm text-gray-700 mb-1">{t('register.password')}</label>
+					<label className="block text-sm text-gray-700 mb-1">{t('register.password')} *</label>
 					<input type="password" className="w-full border rounded-md px-3 py-2" value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t('register.passwordHint')} required />
 				</div>
 
 				<div>
-					<label className="block text-sm text-gray-700 mb-1">{t('register.confirmPassword')}</label>
+					<label className="block text-sm text-gray-700 mb-1">{t('register.confirmPassword')} *</label>
 					<input type="password" className="w-full border rounded-md px-3 py-2" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
 				</div>
 
