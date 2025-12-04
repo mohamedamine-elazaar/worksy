@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../context/useAuth";
+import { authApi } from "../context/utils/api";
 import { useTranslation } from "react-i18next";
 
 export default function Login() {
@@ -9,43 +10,29 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { setRole } = useAuth()
+  const { setRole, setToken, setUser } = useAuth()
 
-  // Very small, local role-determination rules for development/testing.
-  // Assumptions:
-  // - admin credentials: admin@work.com / adminpass
-  // - entreprise users have emails ending with @entreprise.com or include 'entreprise'
-  // - everything else is treated as a regular user
-  const determineRole = (emailValue, pwd) => {
-    const e = (emailValue || "").trim().toLowerCase();
-    if (e === "admin@work.com" && pwd === "adminpass") return "admin";
-    if (e.endsWith("@entreprise.com") || e.includes("entreprise")) return "entreprise";
-    return "user";
-  };
+  // Login via backend; no local role heuristics.
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     if (!email || !password) {
       setError(t('login.error.missingFields'));
       return;
     }
-
-    const role = determineRole(email, password);
-    // persist role in auth context (if available) and redirect to principal dashboard
     try {
-      setRole(role)
-    } catch {
-      try { localStorage.setItem('role', role) } catch { /* ignore */ }
+      const { token, user } = await authApi.login(email, password);
+      setToken(token);
+      setUser(user);
+      setRole(user?.role || null);
+
+      const hasProfile = !!user?.profile || !!localStorage.getItem('profile');
+      if (!hasProfile) navigate('/Profile?create=1');
+      else navigate('/dashboard');
+    } catch (err) {
+      setError(err.message || t('login.error.generic'));
     }
-    // If user has not created a profile yet, send them to profile creation
-    let hasProfile = false
-    try {
-      hasProfile = !!localStorage.getItem('profile')
-    } catch { /* ignore */ }
-
-    if (!hasProfile) navigate('/Profile?create=1')
-    else navigate('/dashboard')
   };
 
   return (
