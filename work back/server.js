@@ -18,10 +18,12 @@ mongoose.connect(process.env.MONGO_URI)
 import authRoutes from "./src/routes/AuthRoutes.js";
 import offerRoutes from "./src/routes/OfferRoutes.js";
 import applicationRoutes from "./src/routes/ApplicationRoutes.js";
+import postRoutes from "./src/routes/PostRoutes.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/offers", offerRoutes);
 app.use("/api/applications", applicationRoutes);
+app.use("/api/posts", postRoutes);
 
 const port = process.env.PORT ? Number(process.env.PORT) : 5000;
 app.listen(port, () => {

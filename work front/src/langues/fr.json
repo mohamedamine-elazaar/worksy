@@ -45,6 +45,26 @@
     "jobs": "Offres",
     "manage": "Gérer"
   },
+  "feed": {
+    "title": "Publications",
+    "contentPlaceholder": "Écrire quelque chose...",
+    "mediaLabel": "Photo / Vidéo",
+    "chooseFiles": "Choisir des fichiers",
+    "filesSelected": "fichier(s) sélectionné(s)",
+    "noFilesSelected": "Aucun fichier sélectionné",
+    "remove": "Supprimer",
+    "publish": "Publier",
+    "noPosts": "Aucune publication pour le moment.",
+    "mentions": "Mentions :",
+    "commentPlaceholder": "Écrire un commentaire...",
+    "send": "Envoyer",
+    "deleteRepost": "Supprimer la republication",
+    "deletePost": "Supprimer la publication",
+    "error": {
+      "contentRequired": "Veuillez renseigner le contenu"
+    },
+    "repostPrefix": "Repost : "
+  },
   "home": {
     "hero": {
       "title": "Worksy — Connectez les Talents aux Opportunités",

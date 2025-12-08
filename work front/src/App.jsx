@@ -8,6 +8,7 @@ import Profile from "./components/pages/Profile.jsx"
 import UserDashboard from "./components/pages/UserDashboard.jsx"
 import Dashboard from "./components/pages/Dashboard.jsx"
 import Offers from "./components/pages/Offers.jsx"
+import Posts from "./components/pages/Posts.jsx"
 import Login from "./components/pages/Login.jsx"
 import AdminDashboard from "./components/pages/AdminDashboard.jsx"
 import EntrepriseDashboard from "./components/pages/EntrepriseDashboard.jsx"
@@ -32,6 +33,7 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/entreprise-dashboard" element={<EntrepriseDashboard />} />
         <Route path="/offers" element={<Offers />} />
+        <Route path="/posts" element={<Posts />} />
          <Route path="/Profile" element={<Profile />} /> 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Singup />} />

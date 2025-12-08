@@ -60,6 +60,26 @@
       "stats": {
         "unemployment": {
           "title": "High Unemployment",
+      "feed": {
+        "title": "Posts",
+        "contentPlaceholder": "Write something...",
+        "mediaLabel": "Photo / Video",
+        "chooseFiles": "Choose files",
+        "filesSelected": "file(s) selected",
+        "noFilesSelected": "No files selected",
+        "remove": "Remove",
+        "publish": "Publish",
+        "noPosts": "No posts yet.",
+        "mentions": "Mentions:",
+        "commentPlaceholder": "Write a comment...",
+        "send": "Send",
+        "deleteRepost": "Delete repost",
+        "deletePost": "Delete post",
+        "error": {
+          "contentRequired": "Please enter content"
+        },
+        "repostPrefix": "Repost: "
+      },
           "desc": "The unemployment rate particularly affects young graduates in many regions."
         },
         "experience": {

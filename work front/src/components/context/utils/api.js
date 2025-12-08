@@ -24,3 +24,11 @@ export const authApi = {
   me: (token) => apiRequest("/auth/me", { token }),
   requestPasswordReset: (email) => apiRequest("/auth/forgot", { method: "POST", body: { email } }),
 };
+
+export const postsApi = {
+  list: () => apiRequest("/posts"),
+  get: (id) => apiRequest(`/posts/${id}`),
+  create: (payload, token) => apiRequest("/posts", { method: "POST", body: payload, token }),
+  update: (id, payload, token) => apiRequest(`/posts/${id}`, { method: "PUT", body: payload, token }),
+  remove: (id, token) => apiRequest(`/posts/${id}`, { method: "DELETE", token }),
+};

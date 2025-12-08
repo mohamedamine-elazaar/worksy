@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { User, Mail, Briefcase, MapPin, ShieldCheck, Edit3, Save, X, Star } from "lucide-react"
+import { User, Mail, Briefcase, MapPin, ShieldCheck, Edit3, Save, X, Star, Heart, Share2, Repeat, MessageSquare, Send } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { useLocation } from "react-router-dom"
 import { useAuth } from "../context/useAuth"
@@ -19,9 +19,11 @@ export default function Profile() {
     location: "",
     bio: "",
     skills: ["React", "Tailwind", "Node"],
+    avatar: "",
   }), [])
 
   const [draft, setDraft] = useState(initialDraft)
+  // Posts moved to Home page
 
   // Helpers for a more polished UI
   const initials = (name = "") => name.trim().split(/\s+/).map(w => w[0]).slice(0,2).join('').toUpperCase() || 'U'
@@ -47,6 +49,7 @@ export default function Profile() {
             location: "",
             bio: "",
             skills: [],
+            avatar: "",
           }
           setForm(fromAuth)
         } else {
@@ -60,6 +63,7 @@ export default function Profile() {
               location: "",
               bio: "",
               skills: [],
+              avatar: "",
             }
             setForm(fromAcc)
           }
@@ -76,6 +80,7 @@ export default function Profile() {
                 location: "",
                 bio: "",
                 skills: u.skills || [],
+                avatar: u.avatar || "",
               }
               setForm(fromMe)
             }
@@ -85,7 +90,8 @@ export default function Profile() {
       setLoading(false)
     }
     init()
-  }, [])
+  }, [user])
+
 
   const startEdit = () => {
     setDraft(form || initialDraft)
@@ -100,7 +106,7 @@ export default function Profile() {
     } catch {/* ignore */}
     // sync minimal fields back to auth user for Navbar toggle harmony
     try {
-      const nextUser = { ...(user || {}), fullName: draft.name, email: draft.email }
+      const nextUser = { ...(user || {}), fullName: draft.name, email: draft.email, avatar: draft.avatar }
       setUser(nextUser)
       localStorage.setItem('user', JSON.stringify(nextUser))
     } catch { /* ignore */ }
@@ -121,12 +127,16 @@ export default function Profile() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Polished header with gradient and avatar */}
-      <section className="bg-gradient-to-br from-indigo-600 via-violet-600 to-pink-500">
+      <section className="bg-indigo-600">
         <div className="max-w-5xl mx-auto px-6 sm:px-8 py-10">
           <div className="bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl p-6 sm:p-8 shadow-sm">
             <div className="flex flex-col sm:flex-row gap-6 sm:items-center">
-              <div className="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-semibold text-xl">
-                {form ? initials(form.name) : <User className="w-10 h-10" />}
+              <div className="w-20 h-20 rounded-full bg-indigo-100 overflow-hidden flex items-center justify-center text-indigo-700 font-semibold text-xl">
+                {form?.avatar ? (
+                  <img src={form.avatar} alt="Avatar" className="w-full h-full object-cover" />
+                ) : (
+                  form ? initials(form.name) : <User className="w-10 h-10" />
+                )}
               </div>
               <div className="flex-1">
                 <div className="flex flex-wrap items-center gap-2">
@@ -189,6 +199,31 @@ export default function Profile() {
               <form onSubmit={saveEdit} className="mt-3 space-y-3">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
+                    <label className="text-xs text-gray-500">Photo</label>
+                    <div className="mt-1 flex items-center gap-3">
+                      <div className="w-14 h-14 rounded-full bg-gray-100 overflow-hidden flex items-center justify_center">
+                        {draft.avatar ? (
+                          <img src={draft.avatar} alt="Avatar preview" className="w-full h-full object-cover" />
+                        ) : (
+                          <User className="w-7 h-7 text-gray-400" />
+                        )}
+                      </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0]
+                          if (!file) return
+                          const reader = new FileReader()
+                          reader.onload = () => {
+                            setDraft((d) => ({ ...d, avatar: reader.result }))
+                          }
+                          reader.readAsDataURL(file)
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div>
                     <label className="text-xs text-gray-500">{t('profile.name')} *</label>
                     <input
                       className="w-full mt-1 border rounded-md px-3 py-2"
@@ -249,6 +284,8 @@ export default function Profile() {
               ))}
             </div>
           </div>
+
+          {/* Publications moved to Home */}
         </div>
 
         {/* Right: Contact / Activity */}

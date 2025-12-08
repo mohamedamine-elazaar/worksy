@@ -1,347 +1,330 @@
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import {
-  Search,
-  Briefcase,
-  Users,
-  Zap,
-  ShieldCheck,
-  FilePlus,
-  Calendar,
-  PenTool,
-  Monitor,
-  Video,
-  Database,
-  Star,
-  MessageSquare,
-} from "lucide-react"
+import { useAuth } from "../context/useAuth"
+import { Heart, Share2, Repeat, MessageSquare, Send, Trash, Trash2 } from "lucide-react"
 
-
-/**
- * Home.jsx
- * Worksy landing/home page (React + Tailwind)
- *
- * - Responsive design (mobile / tablet / desktop)
- * - Reusable small UI components kept in-file for simplicity
- * - Uses lucide-react icons
- *
- * Export: default Home
- */
-
-function Hero() {
-  const { t } = useTranslation();
-  return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-violet-600 to-pink-500 text-white">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 lg:py-28">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">
-              {t('home.hero.title')}
-            </h1>
-            <p className="mt-4 text-indigo-100 max-w-xl">
-              {t('home.hero.subtitle')}
-            </p>
-
-            <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <Link
-                to="/offers"
-                className="inline-flex items-center justify-center gap-2 rounded-md bg-white/95 text-indigo-700 px-5 py-3 font-semibold shadow hover:scale-[1.01] transition"
-                aria-label={t('home.hero.searchJob')}
-              >
-                <Search className="w-4 h-4" />
-                {t('home.hero.searchJob')}
-              </Link>
-
-              <Link
-                to="/login"
-                className="inline-flex items-center justify-center gap-2 rounded-md border border-white/30 text-white px-5 py-3 font-semibold hover:bg-white/10 transition"
-                aria-label={t('home.hero.searchTalent')}
-              >
-                <Users className="w-4 h-4" />
-                {t('home.hero.searchTalent')}
-              </Link>
-            </div>
-
-            <div className="mt-8 text-sm text-indigo-100/90 max-w-lg">
-              <div className="flex items-center gap-2">
-                <Star className="w-4 h-4" />
-                {t('home.hero.localPlatform')}
-              </div>
-            </div>
-          </div>
-
-          <div className="order-first lg:order-last">
-            {/* Decorative illustration box (keeps everything lightweight, CSS-only) */}
-            <div
-              className="w-full rounded-2xl p-6 bg-white/10 backdrop-blur-sm border border-white/20"
-              aria-hidden
-            >
-              <div className="h-56 sm:h-64 lg:h-72 flex items-center justify-center">
-                <div className="w-48 h-48 rounded-full bg-white/10 flex items-center justify-center">
-                  <Briefcase className="w-16 h-16 text-white/90" />
-                </div>
-              </div>
-
-              <div className="mt-4 text-sm text-indigo-50/80">
-                {t('home.hero.joinCommunity')}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Soft geometric shapes */}
-      <div className="pointer-events-none absolute -right-24 -top-24 opacity-20">
-        <div className="w-96 h-96 rounded-full bg-white/10 blur-3xl" />
-      </div>
-    </section>
-  )
-}
-
-function StatCard({ icon: Icon, title, description }) {
-  return (
-    <div className="p-4 bg-white/95 rounded-lg shadow-sm flex gap-4 items-start">
-      <div className="bg-indigo-50 text-indigo-600 rounded-lg p-2">
-        <Icon className="w-6 h-6" />
-      </div>
-      <div>
-        <div className="font-semibold">{title}</div>
-        <div className="text-sm text-gray-600">{description}</div>
-      </div>
-    </div>
-  )
-}
-
-function FeatureCard({ icon: Icon, title, children }) {
-  return (
-    <div className="p-5 bg-white rounded-lg shadow-sm border">
-      <div className="flex items-center gap-3">
-        <div className="p-2 bg-indigo-50 text-indigo-600 rounded">
-          <Icon className="w-5 h-5" />
-        </div>
-        <h3 className="font-semibold">{title}</h3>
-      </div>
-      <p className="mt-3 text-sm text-gray-600">{children}</p>
-    </div>
-  )
-}
-
-function ProblemSection() {
-  const { t } = useTranslation();
-  return (
-    <section className="py-16 bg-gray-50">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl font-bold">{t('home.problem.title')}</h2>
-          <p className="mt-2 text-gray-600 max-w-2xl mx-auto">
-            {t('home.problem.subtitle')}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <StatCard
-            icon={Zap}
-            title={t('home.problem.stats.unemployment.title')}
-            description={t('home.problem.stats.unemployment.desc')}
-          />
-          <StatCard
-            icon={Monitor}
-            title={t('home.problem.stats.experience.title')}
-            description={t('home.problem.stats.experience.desc')}
-          />
-          <StatCard
-            icon={Briefcase}
-            title={t('home.problem.stats.access.title')}
-            description={t('home.problem.stats.access.desc')}
-          />
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function SolutionSection() {
-  const { t } = useTranslation();
-  return (
-    <section className="py-16">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl font-bold">{t('home.solution.title')}</h2>
-          <p className="mt-2 text-gray-600 max-w-2xl mx-auto">
-            {t('home.solution.subtitle')}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <FeatureCard icon={Zap} title={t('home.solution.features.matching.title')}>
-            {t('home.solution.features.matching.desc')}
-          </FeatureCard>
-
-          <FeatureCard icon={ShieldCheck} title={t('home.solution.features.verified.title')}>
-            {t('home.solution.features.verified.desc')}
-          </FeatureCard>
-
-          <FeatureCard icon={FilePlus} title={t('home.solution.features.booking.title')}>
-            {t('home.solution.features.booking.desc')}
-          </FeatureCard>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function HowItWorks() {
-  const { t } = useTranslation();
-  const steps = [
-    {
-      title: t('home.howItWorks.steps.create.title'),
-      desc: t('home.howItWorks.steps.create.desc'),
-      icon: Users,
-    },
-    {
-      title: t('home.howItWorks.steps.find.title'),
-      desc: t('home.howItWorks.steps.find.desc'),
-      icon: Search,
-    },
-    {
-      title: t('home.howItWorks.steps.collaborate.title'),
-      desc: t('home.howItWorks.steps.collaborate.desc'),
-      icon: Calendar,
-    },
-  ]
-
-  return (
-    <section className="py-16 bg-gray-50">
-      <div className="max-w-5xl mx-auto px-6 sm:px-8">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold">{t('home.howItWorks.title')}</h2>
-          <p className="mt-2 text-gray-600">{t('home.howItWorks.subtitle')}</p>
-        </div>
-
-        <div className="space-y-6 md:space-y-0 md:grid md:grid-cols-3 gap-6">
-          {steps.map((s, idx) => (
-            <div key={idx} className="p-6 bg-white rounded-lg border shadow-sm flex gap-4">
-              <div className="p-3 rounded bg-indigo-50 text-indigo-600">
-                <s.icon className="w-6 h-6" />
-              </div>
-              <div>
-                <div className="font-semibold">{s.title}</div>
-                <div className="text-sm text-gray-600 mt-1">{s.desc}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Categories() {
-  const { t } = useTranslation();
-  const cats = [
-    { name: t('home.categories.items.web'), icon: PenTool },
-    { name: t('home.categories.items.design'), icon: Monitor },
-    { name: t('home.categories.items.marketing'), icon: MessageSquare },
-    { name: t('home.categories.items.virtual'), icon: Users },
-    { name: t('home.categories.items.video'), icon: Video },
-    { name: t('home.categories.items.data'), icon: Database },
-  ]
-
-  return (
-    <section className="py-16">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold">{t('home.categories.title')}</h2>
-          <p className="mt-2 text-gray-600">{t('home.categories.subtitle')}</p>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-          {cats.map((c) => (
-            <div
-              key={c.name}
-              className="flex flex-col items-center gap-2 p-4 bg-white rounded-lg border hover:shadow-sm transition"
-            >
-              <div className="p-2 rounded-full bg-indigo-50 text-indigo-600">
-                <c.icon className="w-5 h-5" />
-              </div>
-              <div className="text-sm font-medium text-center">{c.name}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Testimonial({ name, quote, role }) {
-  return (
-    <div className="p-6 bg-white rounded-lg border shadow-sm">
-      <div className="text-gray-700 italic">“{quote}”</div>
-      <div className="mt-4 flex items-center justify-between">
-        <div>
-          <div className="font-semibold">{name}</div>
-          <div className="text-sm text-gray-500">{role}</div>
-        </div>
-        <div className="text-yellow-400">
-          <Star className="w-5 h-5" />
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function Testimonials() {
-  const { t } = useTranslation();
-  const items = [
-    {
-      name: "Sara",
-      role: t('home.testimonials.items.sara.role'),
-      quote: t('home.testimonials.items.sara.quote'),
-    },
-    {
-      name: "Youssef",
-      role: t('home.testimonials.items.youssef.role'),
-      quote: t('home.testimonials.items.youssef.quote'),
-    },
-    {
-      name: "Amina",
-      role: t('home.testimonials.items.amina.role'),
-      quote: t('home.testimonials.items.amina.quote'),
-    },
-  ]
-
-  return (
-    <section className="py-16 bg-gray-50">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold">{t('home.testimonials.title')}</h2>
-          <p className="mt-2 text-gray-600">{t('home.testimonials.subtitle')}</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.map((t) => (
-            <Testimonial key={t.name} {...t} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
 
 export default function Home() {
+  const { t } = useTranslation()
+  const { user } = useAuth()
+  const [posts, setPosts] = useState([])
+  const [postDraft, setPostDraft] = useState({ content: "", media: [] })
+  const [postError, setPostError] = useState("")
+  const [commentDrafts, setCommentDrafts] = useState({})
+
+  const getEmail = () => {
+    if (user?.email) return user.email
+    try {
+      const rawUser = localStorage.getItem('user')
+      if (rawUser) {
+        const u = JSON.parse(rawUser)
+        if (u?.email) return u.email
+      }
+      const rawAcc = localStorage.getItem('account')
+      if (rawAcc) {
+        const a = JSON.parse(rawAcc)
+        if (a?.email) return a.email
+      }
+    } catch { /* ignore */ }
+    return ""
+  }
+  const postsKey = () => {
+    const email = getEmail()
+    return email ? `posts:${email}` : 'posts:anon'
+  }
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(postsKey())
+      if (raw) setPosts(JSON.parse(raw))
+    } catch { /* ignore */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
+
+  const savePosts = (next) => {
+    setPosts(next)
+    try {
+      localStorage.setItem(postsKey(), JSON.stringify(next))
+    } catch { /* ignore */ }
+  }
+
+  const createPost = (e) => {
+    e?.preventDefault()
+    setPostError("")
+    const content = (postDraft.content || "").trim()
+    if (!content) {
+      setPostError(t('feed.error.contentRequired'))
+      return
+    }
+    const mentions = Array.from(new Set((content.match(/@([\w.-]+)/g) || []).map(m => m.slice(1))))
+    const newPost = {
+      id: Date.now(),
+      content,
+      media: postDraft.media || [],
+      mentions,
+      createdAt: new Date().toISOString(),
+      likes: 0,
+      liked: false,
+      shares: 0,
+      reposts: 0,
+      comments: [],
+    }
+    const next = [...posts, newPost]
+    savePosts(next)
+    setPostDraft({ content: "", media: [] })
+  }
+
+  const likePost = (postId) => {
+    const next = posts.map((p) => {
+      if (p.id !== postId) return p
+      const liked = !p.liked
+      const likes = Math.max(0, (p.likes || 0) + (liked ? 1 : -1))
+      return { ...p, liked, likes }
+    })
+    savePosts(next)
+  }
+
+  const sharePost = async (postId) => {
+    const p = posts.find((x) => x.id === postId)
+    if (!p) return
+    try {
+      if (navigator?.share) {
+        await navigator.share({ title: "Worksy", text: p.content })
+      } else if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(p.content)
+      }
+    } catch { /* ignore */ }
+    const next = posts.map((x) => x.id === postId ? { ...x, shares: (x.shares || 0) + 1 } : x)
+    savePosts(next)
+  }
+
+  const repostPost = (postId) => {
+    const clicked = posts.find((x) => x.id === postId)
+    if (!clicked) return
+    const baseId = clicked.repostOf || clicked.id
+    const baseIdx = posts.findIndex((x) => x.id === baseId)
+    if (baseIdx === -1) return
+    const base = posts[baseIdx]
+    // Undo repost if already done
+    if (base.repostedByMe && base.repostRefId) {
+      const withoutRepost = posts.filter((x) => x.id !== base.repostRefId)
+      const next = withoutRepost.map((x) => x.id === baseId
+        ? { ...x, reposts: Math.max(0, (x.reposts || 0) - 1), repostedByMe: false, repostRefId: null }
+        : x)
+      savePosts(next)
+      return
+    }
+    // Create repost of the base original
+    const repostId = Date.now() + Math.floor(Math.random() * 1000)
+    const repost = {
+      id: repostId,
+      content: `${t('feed.repostPrefix')}${base.content}`,
+      media: base.media || [],
+      mentions: base.mentions || [],
+      createdAt: new Date().toISOString(),
+      likes: 0,
+      liked: false,
+      shares: 0,
+      reposts: 0,
+      comments: [],
+      repostOf: baseId,
+    }
+    const next = posts.map((x) => x.id === baseId
+      ? { ...x, reposts: (x.reposts || 0) + 1, repostedByMe: true, repostRefId: repostId }
+      : x)
+    savePosts([...next, repost])
+  }
+
+  const addComment = (postId) => {
+    const text = (commentDrafts[postId] || "").trim()
+    if (!text) return
+    const next = posts.map((p) => {
+      if (p.id !== postId) return p
+      const comments = [...(p.comments || []), { id: Date.now(), content: text, createdAt: new Date().toISOString() }]
+      return { ...p, comments }
+    })
+    savePosts(next)
+    setCommentDrafts((d) => ({ ...d, [postId]: "" }))
+  }
+
+  const deleteRepost = (repostId) => {
+    const r = posts.find((x) => x.id === repostId)
+    if (!r || !r.repostOf) return
+    const baseId = r.repostOf
+    const nextWithout = posts.filter((x) => x.id !== repostId)
+    const next = nextWithout.map((x) => {
+      if (x.id !== baseId) return x
+      const dec = Math.max(0, (x.reposts || 0) - 1)
+      const clearMine = x.repostRefId === repostId ? { repostedByMe: false, repostRefId: null } : {}
+      return { ...x, reposts: dec, ...clearMine }
+    })
+    savePosts(next)
+  }
+
+  const deletePost = (postId) => {
+    const target = posts.find((x) => x.id === postId)
+    if (!target) return
+    // Remove the original post and any reposts referencing it
+    const next = posts.filter((x) => x.id !== postId && x.repostOf !== postId)
+    savePosts(next)
+  }
+
   return (
     <main className="min-h-screen bg-white text-gray-800">
-      <Hero />
+      <section className="max-w-5xl mx-auto px-6 sm:px-8 py-8">
+        <div className="bg-white border rounded-lg p-6">
+          <h2 className="font-semibold text-gray-900">{t('feed.title')}</h2>
+          <form onSubmit={createPost} className="mt-3 space-y-3">
+            <textarea
+              className="w-full border rounded-md px-3 py-2"
+              rows={4}
+              placeholder={t('feed.contentPlaceholder')}
+              value={postDraft.content}
+              onChange={(e) => setPostDraft((d) => ({ ...d, content: e.target.value }))}
+            />
+            <div>
+              <label className="text-xs text-gray-500">{t('feed.mediaLabel')}</label>
+              <div className="mt-1">
+                <label className="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md cursor-pointer">
+                  <span>{t('feed.chooseFiles')}</span>
+                  <input
+                    type="file"
+                    accept="image/*,video/*"
+                    multiple
+                    className="hidden"
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files || [])
+                      if (files.length === 0) return
+                      const readers = files.map((file) => new Promise((resolve) => {
+                        const reader = new FileReader()
+                        reader.onload = () => resolve({ name: file.name, type: file.type, dataUrl: reader.result })
+                        reader.readAsDataURL(file)
+                      }))
+                      Promise.all(readers).then((items) => {
+                        setPostDraft((d) => ({ ...d, media: [...(d.media || []), ...items] }))
+                      })
+                    }}
+                  />
+                </label>
+                {postDraft.media?.length ? (
+                  <div className="mt-2 text-xs text-gray-600">{postDraft.media.length} {t('feed.filesSelected')}</div>
+                ) : (
+                  <div className="mt-2 text-xs text-gray-400">{t('feed.noFilesSelected')}</div>
+                )}
+              </div>
+              {postDraft.media?.length ? (
+                <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {postDraft.media.map((m, idx) => (
+                    <div key={idx} className="relative border rounded-md overflow-hidden">
+                      {m.type.startsWith('image/') ? (
+                        <img src={m.dataUrl} alt={m.name} className="w-full h-28 object-cover" />
+                      ) : (
+                        <video src={m.dataUrl} className="w-full h-28 object-cover" controls />
+                      )}
+                      <button
+                        type="button"
+                        className="absolute top-1 right-1 bg-white/80 text-gray-700 text-xs px-2 py-1 rounded"
+                        onClick={() => setPostDraft((d) => ({ ...d, media: d.media.filter((_, i) => i !== idx) }))}
+                      >
+                        {t('feed.remove')}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+            {postError ? (<div className="text-sm text-red-600">{postError}</div>) : null}
+            <button type="submit" className="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700">{t('feed.publish')}</button>
+          </form>
 
-      <ProblemSection />
-
-      <SolutionSection />
-
-      <HowItWorks />
-
-      <Categories />
-
-      <Testimonials />
+          <div className="mt-6 space-y-4">
+            {posts.length === 0 ? (
+              <div className="text-sm text-gray-500">{t('feed.noPosts')}</div>
+            ) : (
+              posts.map((p) => {
+                const baseId = p.repostOf || p.id
+                const base = posts.find((x) => x.id === baseId)
+                const repostedByMe = !!(base && base.repostedByMe)
+                const repostCount = base?.reposts || 0
+                const isMyRepost = !!(p.repostOf && base && base.repostRefId === p.id)
+                return (
+                <article key={p.id} className="border rounded-md p-4">
+                  <div className="mt-1 text-xs text-gray-500">{new Date(p.createdAt).toLocaleString()}</div>
+                  <p className="mt-2 text-sm text-gray-700 whitespace-pre-line">{p.content}</p>
+                  {p.mentions?.length ? (
+                    <div className="mt-2 text-xs text-indigo-700">{t('feed.mentions')} {p.mentions.map((m) => `@${m}`).join(', ')}</div>
+                  ) : null}
+                  {p.media?.length ? (
+                    <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {p.media.map((m, idx) => (
+                        <div key={idx} className="border rounded-md overflow-hidden">
+                          {m.type.startsWith('image/') ? (
+                            <img src={m.dataUrl} alt={m.name} className="w-full h-28 object-cover" />
+                          ) : (
+                            <video src={m.dataUrl} className="w-full h-28 object-cover" controls />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+                  <div className="mt-4 flex items-center gap-4 text-sm">
+                    <button type="button" onClick={() => likePost(p.id)} className={`inline-flex items-center gap-1 hover:text-indigo-600 ${p.liked ? 'text-red-600' : 'text-gray-600'}`}>
+                      <Heart className="w-4 h-4" />
+                      <span>{p.likes || 0}</span>
+                    </button>
+                    <button type="button" onClick={() => sharePost(p.id)} className="inline-flex items-center gap-1 text-gray-600 hover:text-indigo-600">
+                      <Share2 className="w-4 h-4" />
+                      <span>{p.shares || 0}</span>
+                    </button>
+                    <button type="button" onClick={() => repostPost(baseId)} className={`inline-flex items-center gap-1 ${repostedByMe ? 'text-indigo-600' : 'text-gray-600'} hover:text-indigo-600`}>
+                      <Repeat className="w-4 h-4" />
+                      <span>{repostCount}</span>
+                    </button>
+                    {isMyRepost && (
+                      <button type="button" onClick={() => deleteRepost(p.id)} className="inline-flex items-center gap-1 text-gray-600 hover:text-red-600">
+                        <Trash className="w-4 h-4" />
+                        <span>{t('feed.deleteRepost')}</span>
+                      </button>
+                    )}
+                    {!p.repostOf && (
+                      <button type="button" onClick={() => deletePost(p.id)} className="inline-flex items-center gap-1 text-gray-600 hover:text-red-600">
+                        <Trash2 className="w-4 h-4" />
+                        <span>{t('feed.deletePost')}</span>
+                      </button>
+                    )}
+                    <div className="inline-flex items-center gap-1 text-gray-600">
+                      <MessageSquare className="w-4 h-4" />
+                      <span>{(p.comments || []).length}</span>
+                    </div>
+                  </div>
+                  <div className="mt-3 space-y-2">
+                    {(p.comments || []).map((c) => (
+                      <div key={c.id} className="text-sm text-gray-700">
+                        <span className="text-gray-500 text-xs mr-2">{new Date(c.createdAt).toLocaleString()}</span>
+                        {c.content}
+                      </div>
+                    ))}
+                    <div className="flex items-center gap-2 mt-2">
+                      <input
+                        className="flex-1 border rounded-md px-3 py-2 text-sm"
+                        placeholder={t('feed.commentPlaceholder')}
+                        value={commentDrafts[p.id] || ''}
+                        onChange={(e) => setCommentDrafts((d) => ({ ...d, [p.id]: e.target.value }))}
+                        onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addComment(p.id) } }}
+                      />
+                      <button type="button" onClick={() => addComment(p.id)} className="px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-800 inline-flex items-center gap-1">
+                        <Send className="w-4 h-4" />
+                        <span className="text-sm">{t('feed.send')}</span>
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              )})
+            )}
+          </div>
+        </div>
+      </section>
     </main>
   )
 }

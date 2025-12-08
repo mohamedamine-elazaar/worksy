@@ -50,6 +50,26 @@
       "title": "Worksy — اربط المواهب بالفرص",
       "subtitle": "Worksy يسهل اللقاء بين المستقلين والمتدربين والشركات في المغرب. اكتشف المهام، تقدم بسهولة وتعاون بثقة.",
       "searchJob": "أبحث عن وظيفة",
+      "feed": {
+        "title": "المنشورات",
+        "contentPlaceholder": "اكتب شيئًا...",
+        "mediaLabel": "صورة / فيديو",
+        "chooseFiles": "اختيار ملفات",
+        "filesSelected": "ملف(ات) محددة",
+        "noFilesSelected": "لا توجد ملفات محددة",
+        "remove": "إزالة",
+        "publish": "نشر",
+        "noPosts": "لا توجد منشورات حتى الآن.",
+        "mentions": "الإشارات:",
+        "commentPlaceholder": "اكتب تعليقًا...",
+        "send": "إرسال",
+        "deleteRepost": "حذف إعادة النشر",
+        "deletePost": "حذف المنشور",
+        "error": {
+          "contentRequired": "يرجى إدخال المحتوى"
+        },
+        "repostPrefix": "إعادة نشر: "
+      },
       "searchTalent": "أبحث عن موهبة",
       "localPlatform": "منصة محلية مصممة للسوق المغربي — سريعة، بسيطة وآمنة.",
       "joinCommunity": "انضم إلى مجتمع متنامٍ من المواهب وأصحاب العمل."
